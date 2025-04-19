@@ -5,28 +5,40 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
+
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float bulletSpeed = 10f;
+    public float shootForce = 20f;
+    public float fireRate = 0.1f;
+    private float lastShotTime = 0f;
 
     void Update()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        //캐릭터 움직임
+        float h = Input.GetAxisRaw("Horizontal");//가로
+        float v = Input.GetAxisRaw("Vertical");//세로
 
-        transform.position += new Vector3(h, v, 0).normalized * moveSpeed * Time.deltaTime;
+        transform.position += new Vector3(h, v, 0).normalized * moveSpeed * Time.deltaTime;//속도
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        //Z키를 눌렀을 때
+        if (Input.GetKey(KeyCode.Z))
         {
-            Shoot();
+            if (Time.time - lastShotTime >= fireRate)//시간에서 lastShotTime을 뺀 값이 fireRate보다 크다면
+            {
+                Shoot();//Shoot 함수 실행
+                lastShotTime = Time.time;
+            }
         }
     }
 
+    //발사체 발사하는 코드
     void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = firePoint.up * bulletSpeed;
-        Destroy(bullet, 5f);
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();//리기드바디 투디 임포트
+        rb.isKinematic = false;//isKinematic:외부에서 가해지는 물리적 힘에 반응하지 않는 오브젝트. false니까 반대로 반응하는 오브젝트...?
+        rb.AddForce(firePoint.up * shootForce, ForceMode2D.Impulse);//힘을 Impulse모드로 주겠다는 의미
     }
+
+
 }

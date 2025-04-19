@@ -14,24 +14,25 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //총알에 맞았을 시 Kill 함수 실행
         if (collision.collider.CompareTag("Bullet"))
         {
-            Debug.Log("총알 충돌 감지");
-            spawner.OnEnemyKilled(gameObject);
-            Destroy(gameObject, 0.3f);
+            Kill();
         }
     }
 
 
     void Start()
     {
-        mainCam = Camera.main;
+        mainCam = Camera.main;//카메라 지정
 
-        player = GameObject.FindWithTag("Player")?.transform;
+        player = GameObject.FindWithTag("Player")?.transform;//Player 태그를 가진 오브젝트를 찾음
 
+        //카메라 바깥쪽 위치지정
         Vector2 min = mainCam.ViewportToWorldPoint(new Vector2(0.1f, 0.1f));
         Vector2 max = mainCam.ViewportToWorldPoint(new Vector2(0.9f, 0.9f));
 
+        //랜덤위치
         targetPosition = new Vector2(
             Random.Range(min.x, max.x),
             Random.Range(min.y, max.y)
@@ -46,9 +47,11 @@ public class Enemy : MonoBehaviour
             return;
         }
 
+        //적 움직임
         Vector3 direction = (player.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
 
+        //적이 바라보는 앵글(z축으로 뒤집히지 않도록 하는 역할)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
@@ -57,9 +60,9 @@ public class Enemy : MonoBehaviour
     {
         if (spawner != null)
         {
-            spawner.OnEnemyKilled(gameObject);
+            spawner.OnEnemyKilled(gameObject);//스포너의 OnEnemyKilled 함수 호출
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject);//삭제
     }
 }
