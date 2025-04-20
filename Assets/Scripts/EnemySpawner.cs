@@ -36,8 +36,9 @@ public class EnemySpawner : MonoBehaviour
         float x, y;
         int edge = Random.Range(0, 4);//0에서부터 3까지 랜덤으로 배정
 
-        Vector2 screenMin = mainCam.ViewportToWorldPoint(new Vector2(0, 0));//생성 위치(x)
-        Vector2 screenMax = mainCam.ViewportToWorldPoint(new Vector2(1, 1));//생성 위치(y)
+        //랜덤으로 생성할 위치의 최소값과 최대값
+        Vector2 screenMin = mainCam.ViewportToWorldPoint(new Vector2(0, 0));
+        Vector2 screenMax = mainCam.ViewportToWorldPoint(new Vector2(1, 1));
 
         switch (edge)
         {
@@ -75,7 +76,7 @@ public class EnemySpawner : MonoBehaviour
     //딜레이 만드는 코드
     IEnumerator RespawnAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);//??
+        yield return new WaitForSeconds(delay);//딜레이를 리턴
         if (activeEnemies.Count < maxEnemies)//살아있는 적이 맥스치보다 적을 때
         {
             SpawnEnemy();//SpawnEnemy 함수 실행
