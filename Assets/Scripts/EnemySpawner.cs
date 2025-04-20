@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
         Vector2 spawnPos = GetRandomOutsidePosition();//스폰위치지정
         GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
         activeEnemies.Add(enemy);//적 캐릭터 생성
     }
 
-    Vector2 GetRandomOutsidePosition()
+    public Vector2 GetRandomOutsidePosition()
     {
         float x, y;
         int edge = Random.Range(0, 4);//0에서부터 3까지 랜덤으로 배정

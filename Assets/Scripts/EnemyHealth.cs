@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,10 @@ public class EnemyHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+
+        if (enemy == null) {
+            enemy = GetComponent<Enemy>();
+        }
     }
 
     public void TakeDamage(int amount)
@@ -22,10 +27,5 @@ public class EnemyHealth : MonoBehaviour
         {
             enemy.Kill();
         }
-    }
-
-    void Update()
-    {
-        
     }
 }

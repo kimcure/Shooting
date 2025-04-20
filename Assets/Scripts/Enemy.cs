@@ -17,7 +17,12 @@ public class Enemy : MonoBehaviour
         //총알에 맞았을 시 Kill 함수 실행
         if (collision.collider.CompareTag("Bullet"))
         {
-            Kill();
+            EnemyHealth health = GetComponent<EnemyHealth>();
+            if (health != null)
+            {
+                health.TakeDamage(1);
+            }
+            //Kill();
         }
     }
 
@@ -37,6 +42,8 @@ public class Enemy : MonoBehaviour
             Random.Range(min.x, max.x),
             Random.Range(min.y, max.y)
         );
+
+        StartCoroutine(AppearAnimation());
     }
 
     // Update is called once per frame
@@ -60,9 +67,25 @@ public class Enemy : MonoBehaviour
     {
         if (spawner != null)
         {
+
             spawner.OnEnemyKilled(gameObject);//스포너의 OnEnemyKilled 함수 호출
         }
 
         Destroy(gameObject);//삭제
+    }
+
+    IEnumerator AppearAnimation()
+    {
+        transform.localScale = Vector3.zero;
+        Vector3 targetScale = Vector3.one;
+        
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 2f;
+            transform.localScale = Vector3.Lerp(Vector3.zero, targetScale, t);
+            yield return null;
+        }
     }
 }

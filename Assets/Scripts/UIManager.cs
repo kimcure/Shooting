@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Text playerHealthText;
+    public Text waveText;
     public Text enemyCountText;
+    public Text bossWarningText;
     public PlayerHealth playerHealth; 
     public EnemySpawner spawner;
+    public float warningDuration = 2f;
 
     private void Start()
     {
@@ -24,6 +27,42 @@ public class UIManager : MonoBehaviour
         playerHealthText.text = $"HP : {playerHealth.CurrentHealth}/{playerHealth.MaxHealth}";
         enemyCountText.text = $"Enemies: {spawner.ActiveEnemyCount()}";
 
+     
+    }
 
+    public void ShowWave(int wave)
+    {
+        waveText.text = $"Wave {wave}";
+    }
+
+    public void ShowBossWarning() 
+    {
+        StartCoroutine(BossWarningCoroutine());
+    }
+
+    IEnumerator BossWarningCoroutine()
+    {
+        bossWarningText.text = "!!!BOSS INCOMING!!!";
+        bossWarningText.color = new Color(1, 0, 0, 0);
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 2f;
+            bossWarningText.color = new Color(1, 0, 0, t);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(warningDuration);
+
+        t = 1f;
+        while (t > 0f)
+        {
+            t -= Time.deltaTime * 2f;
+            bossWarningText.color = new Color(1, 0, 0, t);
+            yield return null;
+        }
+
+        bossWarningText.text = "";
     }
 }
