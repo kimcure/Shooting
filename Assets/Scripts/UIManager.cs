@@ -46,6 +46,8 @@ public class UIManager : MonoBehaviour
         bossWarningText.color = new Color(1, 0, 0, 0);
         float t = 0f;
 
+
+        //보스 텍스트 페이드 인/아웃 효과
         while (t < 1f)
         {
             t += Time.deltaTime * 2f;

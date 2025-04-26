@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //총알에 맞았을 시 Kill 함수 실행
+        //총알에 맞았을 시 대미지를 받는 함수 실행
         if (collision.collider.CompareTag("Bullet"))
         {
             EnemyHealth health = GetComponent<EnemyHealth>();
