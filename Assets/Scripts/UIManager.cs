@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     public Text waveText;
     public Text enemyCountText;
     public Text bossWarningText;
+    public Text scoreText;
+    public Slider bossHealthBar;
     public PlayerHealth playerHealth; 
     public EnemySpawner spawner;
     public float warningDuration = 2f;
@@ -66,5 +68,25 @@ public class UIManager : MonoBehaviour
         }
 
         bossWarningText.text = "";
+    }
+
+    public void ShowBossHealthBar()
+    {
+        bossHealthBar.gameObject.SetActive(true);
+    }
+
+    public void HideBossHealthBar()
+    {
+        bossHealthBar.gameObject.SetActive(false);
+    }
+
+    public void updateBossHealth(float normalizadHealth)
+    {
+        bossHealthBar.value = normalizadHealth;
+    }
+
+    public void UpdateScore(int score)
+    {
+        scoreText.text = $"Score: {score}";
     }
 }

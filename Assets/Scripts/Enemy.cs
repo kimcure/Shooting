@@ -12,7 +12,13 @@ public class Enemy : MonoBehaviour
 
     private Transform player;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public GameObject dropItemPrefab;
+    public float dropChance = 0.3f;
+
+    public int pointValue = 100;
+    public ScoreManager scoreManager;
+
+     void OnCollisionEnter2D(Collision2D collision)
     {
         //총알에 맞았을 시 대미지를 받는 함수 실행
         if (collision.collider.CompareTag("Bullet"))
@@ -65,11 +71,18 @@ public class Enemy : MonoBehaviour
 
     public void Kill()
     {
+        if (Random.value < dropChance)
+        {
+            Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
+        }
+
         if (spawner != null)
         {
 
             spawner.OnEnemyKilled(gameObject);//스포너의 OnEnemyKilled 함수 호출
         }
+
+        scoreManager.AddScore(pointValue);
 
         Destroy(gameObject);//삭제
     }
