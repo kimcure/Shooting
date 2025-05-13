@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public GameObject gameOverPanel;
 
+    public float nextStageDelay = 3f;
+
     public void GameOver()
     {
         gameOverPanel.SetActive(true);
@@ -15,6 +17,19 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void StageClear()
+    {
+        StartCoroutine(StageClearRoutine());
+    }
+
+    IEnumerator StageClearRoutine()
+    {
+        yield return new WaitForSeconds(nextStageDelay);
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

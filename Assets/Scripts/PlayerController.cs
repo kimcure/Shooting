@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         //rb.AddForce(firePoint.up * shootForce, ForceMode2D.Impulse);//힘을 Impulse모드로 주겠다는 의미
     }
 
-    public void UpgradeFireRate(float duration)
+    public void UpgradeFireRate(float duration)//발사속도 업그레이드
     {
         if (upgradeCoroutine != null)
         {

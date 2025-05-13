@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -10,10 +11,15 @@ public class UIManager : MonoBehaviour
     public Text enemyCountText;
     public Text bossWarningText;
     public Text scoreText;
+    public Text stageClearText;
     public Slider bossHealthBar;
+
     public PlayerHealth playerHealth; 
+    
     public EnemySpawner spawner;
+
     public float warningDuration = 2f;
+    public float clearDisplayDuration = 2f;
 
     private void Start()
     {
@@ -40,6 +46,38 @@ public class UIManager : MonoBehaviour
     public void ShowBossWarning() 
     {
         StartCoroutine(BossWarningCoroutine());
+    }
+
+    public void ShowStageClear()
+    {
+        StartCoroutine(StageClearCoroutine());
+    }
+
+    IEnumerator StageClearCoroutine()
+    {
+        stageClearText.text = "STAGE CLEAR!";
+        stageClearText.color = new Color(1, 1, 0, 0);
+        stageClearText.gameObject.SetActive(true);
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 2f;
+            stageClearText.color = new Color(1, 1, 0, t);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(clearDisplayDuration);
+
+        t = 1f;
+        while (t > 0f)
+        {
+            t -= Time.deltaTime * 2f;
+            stageClearText.color = new Color(1, 1, 0, t);
+            yield return null;
+        }
+
+        stageClearText.gameObject.SetActive(false);
     }
 
     IEnumerator BossWarningCoroutine()
@@ -70,6 +108,7 @@ public class UIManager : MonoBehaviour
         bossWarningText.text = "";
     }
 
+    //보스 체력바 설정
     public void ShowBossHealthBar()
     {
         bossHealthBar.gameObject.SetActive(true);
@@ -85,6 +124,7 @@ public class UIManager : MonoBehaviour
         bossHealthBar.value = normalizadHealth;
     }
 
+    //점수 시스템
     public void UpdateScore(int score)
     {
         scoreText.text = $"Score: {score}";
